@@ -16,7 +16,7 @@ application.secret_key = 'cC1YCIWOj9GgWspgNEo2'
 @application.route('/index', methods=['GET', 'POST'])
 def index():
 
-    return requests.get('http://192.168.1.69:80/status').content
+    return requests.get('http://192.168.1.69:80').content
 
 if __name__ == '__main__':
     application.run(host='0.0.0.0')
