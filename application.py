@@ -15,9 +15,8 @@ application.secret_key = 'cC1YCIWOj9GgWspgNEo2'
 @application.route('/', methods=['GET', 'POST'])
 @application.route('/index', methods=['GET', 'POST'])
 def index():
-    relay_status = requests.get('192.168.1.69:80/status')
-    return render_template('index.html', **relay_status)
 
+    return requests.get('http://192.168.1.69:80/status').content
 
 if __name__ == '__main__':
     application.run(host='0.0.0.0')

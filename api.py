@@ -39,7 +39,7 @@ def index():
               'cool'  : cool_status,
               'heat'  : heat_status,
         }
-	return templateData
+	return render_template('index.html', **templateData)
 	
 @app.route("/<mode>/<action>")
 def action(mode, action):
@@ -63,7 +63,7 @@ def action(mode, action):
               'cool'  : cool_status,
               'heat'  : heat_status,
         }
-	return templateData
+	return render_template('index.html', **templateData)
 
 @app.route("/status")
 def status():
@@ -78,6 +78,6 @@ def status():
               'cool'  : cool_status,
               'heat'  : heat_status,
         }
-	return templateData
+	return render_template('index.html', **templateData)
 if __name__ == "__main__":
    app.run(host='192.168.1.69', port=80, debug=True)
