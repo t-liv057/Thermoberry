@@ -1,62 +1,83 @@
 #!/usr/bin/python
-
-import flask
-from flask import request
+'''
+	Raspberry Pi GPIO Status and Control
+'''
 import RPi.GPIO as GPIO
-import time
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
 #Relay Board Mapping Ch1 fan(GPIO: 25), Ch2 cool(GPIO: 28), ch3 heat(GPIO: 29)
 controls = {"fan": 26, "cool": 20, "heat": 21}
 
+#initialize GPIO status variables
+fan_status = 0
+cool_status = 0
+heat_status = 0
 
+# Define led pins as output
+for value in controls.values():
+	GPIO.setup(value, GPIO.OUT)   
 
-app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+# turn leds OFF 
+#GPIO.output(ledRed, GPIO.LOW)
+#GPIO.output(ledYlw, GPIO.LOW)
+#GPIO.output(ledGrn, GPIO.LOW)
+	
+@app.route("/")
+def index():
+	# Read Sensors Status
+	fan_status = GPIO.input(controls["fan"])
+	cool_status = GPIO.input(controls["cool"])
+	heat_status = GPIO.input(controls["heat"])
 
-@app.route('/', methods=['GET'])
-def home():
-    return "<h1>Bullshit Relay Site</h1><p>This site is complete bullshit</p>"
+	templateData = {
+              'title' : 'GPIO output Status!',
+              'fan'   : fan_status,
+              'cool'  : cool_status,
+              'heat'  : heat_status,
+        }
+	return templateData
+	
+@app.route("/<mode>/<action>")
+def action(mode, action):
 
-@app.route('/fan', methods=['GET'])
-def fan():
-    try:
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(controls["fan"], GPIO.OUT)
-        GPIO.output(controls["fan"], True)
-        time.sleep(3)
-        GPIO.output(controls["fan"], False)
+	if mode in controls.keys():
+		control = controls[mode]
+   	else:
+		return False
+	if action == "on":
+		GPIO.output(control, True)
+	if action == "off":
+		GPIO.output(control, False)
+		     
+	fan_status = GPIO.input(controls["fan"])
+	cool_status = GPIO.input(controls["cool"])
+	heat_status = GPIO.input(controls["heat"])
+   
+	templateData = {
+              'title' : 'GPIO output Status!',
+              'fan'   : fan_status,
+              'cool'  : cool_status,
+              'heat'  : heat_status,
+        }
+	return templateData
 
-        return "<h1>Switching Fan Relay On</h1><p>This site is complete bullshit</p>"
-    except Exception as e:
-        GPIO.cleanup()
-        return(e)
-
-@app.route('/cool', methods=['GET'])
-def cool():
-    try:
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(controls["cool"], GPIO.OUT)
-        GPIO.output(controls["cool"], True)
-        time.sleep(3)
-        GPIO.output(controls["cool"], False)
-        return "<h1>Switching Cool Relay On</h1><p>This site is complete bullshit</p>"
-    except Exception as e:
-        GPIO.cleanup()
-        return(e)
-
-@app.route('/heat', methods=['GET'])
-def heat():
-    try:
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(controls["heat"], GPIO.OUT)
-        GPIO.output(controls["heat"], True)
-        time.sleep(3)
-        GPIO.output(controls["heat"], False)
-
-        return "<h1>Switching Heat Relay On</h1><p>This site is complete bullshit</p>"
-    except Exception as e:
-        GPIO.cleanup()
-        return(e)
-
-
-app.run(host='0.0.0.0')
+@app.route("/status")
+def status():
+		     
+	fan_status = GPIO.input(controls["fan"])
+	cool_status = GPIO.input(controls["cool"])
+	heat_status = GPIO.input(controls["heat"])
+   
+	templateData = {
+              'title' : 'GPIO output Status!',
+              'fan'   : fan_status,
+              'cool'  : cool_status,
+              'heat'  : heat_status,
+        }
+	return templateData
+if __name__ == "__main__":
+   app.run(host='192.168.1.69', port=80, debug=True)
