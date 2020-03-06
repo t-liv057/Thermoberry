@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import requests
 from flask import Flask, render_template, request
 from application import db
