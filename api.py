@@ -1,6 +1,6 @@
 #!/usr/bin/python
 '''
-	Raspberry Pi GPIO Status and Control
+    Raspberry Pi GPIO Status and Control
 '''
 import RPi.GPIO as GPIO
 from flask import Flask, render_template, request
@@ -19,65 +19,66 @@ heat_status = 0
 
 # Define led pins as output
 for value in controls.values():
-	GPIO.setup(value, GPIO.OUT)   
+    GPIO.setup(value, GPIO.OUT)   
 
 # turn leds OFF 
 #GPIO.output(ledRed, GPIO.LOW)
 #GPIO.output(ledYlw, GPIO.LOW)
 #GPIO.output(ledGrn, GPIO.LOW)
-	
+    
 @app.route("/")
 def index():
-	# Read Sensors Status
-	fan_status = GPIO.input(controls["fan"])
-	cool_status = GPIO.input(controls["cool"])
-	heat_status = GPIO.input(controls["heat"])
+    # Read Sensors Status
+    fan_status = GPIO.input(controls["fan"])
+    cool_status = GPIO.input(controls["cool"])
+    heat_status = GPIO.input(controls["heat"])
 
-	templateData = {
+    templateData = {
               'title' : 'GPIO output Status!',
               'fan'   : fan_status,
               'cool'  : cool_status,
               'heat'  : heat_status,
         }
-	return render_template('index.html', **templateData)
-	
+    return render_template('index.html', **templateData)
+    
 @app.route("/<mode>/<action>")
 def action(mode, action):
 
-	if mode in controls.keys():
-		control = controls[mode]
-   	else:
-		return False
-	if action == "on":
-		GPIO.output(control, True)
-	if action == "off":
-		GPIO.output(control, False)
-		     
-	fan_status = GPIO.input(controls["fan"])
-	cool_status = GPIO.input(controls["cool"])
-	heat_status = GPIO.input(controls["heat"])
+    if mode in controls.keys():
+        control = controls[mode]
+    else:
+        return False
+    if action == "on":
+        GPIO.output(control, True)
+    if action == "off":
+        GPIO.output(control, False)
+             
+    fan_status = GPIO.input(controls["fan"])
+    cool_status = GPIO.input(controls["cool"])
+    heat_status = GPIO.input(controls["heat"])
    
-	templateData = {
+    templateData = {
               'title' : 'GPIO output Status!',
               'fan'   : fan_status,
               'cool'  : cool_status,
               'heat'  : heat_status,
         }
-	return render_template('index.html', **templateData)
+    return render_template('index.html', **templateData)
 
 @app.route("/status")
 def status():
-		     
-	fan_status = GPIO.input(controls["fan"])
-	cool_status = GPIO.input(controls["cool"])
-	heat_status = GPIO.input(controls["heat"])
+             
+    fan_status = GPIO.input(controls["fan"])
+    cool_status = GPIO.input(controls["cool"])
+    heat_status = GPIO.input(controls["heat"])
    
-	templateData = {
+    templateData = {
               'title' : 'GPIO output Status!',
               'fan'   : fan_status,
               'cool'  : cool_status,
               'heat'  : heat_status,
         }
-	return render_template('index.html', **templateData)
+    return render_template('index.html', **templateData)
 if __name__ == "__main__":
-   app.run(host='192.168.1.69', port=80, debug=True)
+   #app.run(host='192.168.1.69', port=80, debug=True)
+   app.run(host='0.0.0.0', port=80, debug=True)
