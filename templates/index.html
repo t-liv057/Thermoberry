@@ -1,30 +1,42 @@
 <!DOCTYPE html>
    <head>
       <title>GPIO Thermostat Control</title>
-      <link rel="stylesheet" href='../style.css'/>
+      <link rel="stylesheet" href='../static/status_style.css'/>
    </head>
    <body>
-		<h1>Relays</h1>
+		<h1>Thermoberry</h1>
 		<h2> Status </h2>
 		<h3> FAN ==>  {{ fan  }}</h3>
 		<h3> COOLING ==>  {{ cool  }}</h3>
 		<h3> HEATING ==>  {{ heat  }}</h3>
 		<br>
-		<h2> Commands </h2>
+		<h3> SCHEDULE ==> {{ schedule_status }} </h3>
+		<br>
+		<h1>Temperature {{ temperature }} degrees C</h1>
+		<h1>Temperature {{ tempf }} degrees F</h1>
+		<h1>Humidity {{ humidity }}%</h1>
+		<br>
+		<h3> 
+			Schedule Control ==> 
+			<a href="http://2760bd65.ngrok.io:80/schedule/on" class="button">Run Schedule</a>  
+			<a href="http://2760bd65.ngrok.io:80/schedule/off"class="button">Stop Schedule</a>
+		</h3>		
+		<br>
+		<h2> Manual Options </h2>
 		<h3> 
 			Fan Control ==> 
-			<a href="http://192.168.1.69:80/fan/on" class="button">TURN ON</a>  
-			<a href="http://192.168.1.69:80/fan/off"class="button">TURN OFF</a>
+			<a href="http://2760bd65.ngrok.io:80/fan/on" class="button">TURN ON</a>  
+			<a href="http://2760bd65.ngrok.io:80/fan/off"class="button">TURN OFF</a>
 		</h3>
 		<h3> 
 			Cooling Control ==> 
-			<a href="http://192.168.1.69:80/cool/on" class="button">TURN ON</a>  
-			<a href="http://192.168.1.69:80/cool/off"class="button">TURN OFF</a>
+			<a href="http://2760bd65.ngrok.io:80/cool/on" class="button">TURN ON</a>  
+			<a href="http://2760bd65.ngrok.io:80/cool/off"class="button">TURN OFF</a>
 		</h3>
 		<h3> 
 			Heating Control ==> 
-			<a href="http://192.168.1.69:80/heat/on" class="button">TURN ON</a>  
-			<a href="http://192.168.1.69:80/heat/off"class="button">TURN OFF</a>
+			<a href="http://2760bd65.ngrok.io:80/heat/on" class="button">TURN ON</a>  
+			<a href="http://2760bd65.ngrok.io:80/heat/off"class="button">TURN OFF</a>
 		</h3>
 		
    </body>
