@@ -9,17 +9,17 @@ This build is meant for my personal Raspberry pi, and a few parts and technical 
 
 
 
-```
+
 A requirements.txt file is attatched showing some of the neccessary libraries.  Some are redundant for development of the device, and other more common libraries are left out, like the RPI GPIO.
-```
+
 
 ### Installing
 
 
 
-```
+
 Generally once hardware is properly configred only the required modules and python need to be installed on the device to run the server.  Running this sever in a network where multiple routers are in series requires additional tunneling to be done to make the device accessible to the web.
-```
+
 
 
 
