@@ -12,7 +12,7 @@ import datetime as dt
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-# Relay Board Mapping Ch1 fan(GPIO: 25), Ch2 cool(GPIO: 28), ch3 heat(GPIO: 29)
+# Relay Board Mapping Ch1 fan(GPIO: 26), Ch2 cool(GPIO: 20), ch3 heat(GPIO: 21)
 controls = {"fan": 26, "cool": 20, "heat": 21}
 control_mode = "COOL" # "HEAT"
 
